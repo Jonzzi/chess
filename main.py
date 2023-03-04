@@ -10,14 +10,14 @@ import logging
 # задаем оснвновные константы
 global ALL_LITERS
 ALL_LITERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-COMMANDS = ['help', 'exit', 'show', 'new', 'stat']
+COMMANDS = ['help', 'exit', 'show', 'new', 'stat', 'log', 'save', 'load']
 
 TG = True # вывод в телеграм
 #TG = False # вывод в local
-chat_id = тут должен быть чат-ид
+chat_id = -760129456
 global UPDATE_ID
 UPDATE_ID = None
-TOKEN = 'тут должен быть токен'
+TOKEN = '5522941789:AAGFKuazgIpW5Jjfu5pHIVQiw1sYFr3wQpw'
 
 if TG == True:
     bot = telegram.Bot(token=TOKEN)
@@ -391,7 +391,34 @@ def pl_action(txt):
     elif 'new'.upper() in txt:
         begin_page()
         board = Board()
-        board.show()
+        gamers = []
+        while True:
+            try:
+                if len(gamers) < 2:
+                    g = collect_gamers()
+                    if g != False:
+                        gamers.append(g)
+
+                elif len(gamers) == 2 and not board.start:
+                    show('Игроки набраны, игра начинается!')
+                    ttt = 'Игрок 1: ' + gamers[0]['name'] + ' (' + gamers[0]['color'] + ')'
+                    show(ttt)
+                    board.log.append(ttt)
+                    ttt = 'Игрок 2: ' + gamers[1]['name'] + ' (' + gamers[1]['color'] + ')'
+                    show(ttt)
+                    board.log.append(ttt)
+                    board.start = True
+                    board.show()
+
+                elif answ(bot):
+                    break
+
+            except NetworkError:
+                sleep(1)
+            except Unauthorized:
+                # Пользователь удалил или заблокировал бота.
+                UPDATE_ID += 1
+
 
     elif 'help'.upper() in txt:
         show('Поддерживаются команды: ' + ', '.join(COMMANDS))
