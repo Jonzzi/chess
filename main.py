@@ -14,10 +14,10 @@ COMMANDS = ['help', 'exit', 'show', 'new', 'stat']
 
 TG = True # вывод в телеграм
 #TG = False # вывод в local
-chat_id = -760129456
+chat_id = тут должен быть чат-ид
 global UPDATE_ID
 UPDATE_ID = None
-TOKEN = '5522941789:AAGFKuazgIpW5Jjfu5pHIVQiw1sYFr3wQpw'
+TOKEN = 'тут должен быть токен'
 
 if TG == True:
     bot = telegram.Bot(token=TOKEN)
